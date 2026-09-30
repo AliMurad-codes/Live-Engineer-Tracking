@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Live Engineer Tracking</title>
+</head>
+
+<body>
+
+    <h1>Live Engineer Tracking</h1>
+
+    <button onclick="connect()">Connect</button>
+
+    <h2>Received Location</h2>
+
+    <pre id="output">Not connected</pre>
+
+
+    <script>
+
+        let socket;
+
+
+        function connect() {
+
+            socket = new WebSocket("ws://127.0.0.1:8000/ws");
+
+
+            socket.onopen = function() {
+
+                document.getElementById("output").textContent =
+                    "Connected to WebSocket";
+
+            };
+
+
+            socket.onmessage = function(event) {
+
+                const data = JSON.parse(event.data);
+
+                document.getElementById("output").textContent =
+                    JSON.stringify(data, null, 2);
+
+            };
+
+
+            socket.onclose = function() {
+
+                document.getElementById("output").textContent =
+                    "WebSocket disconnected";
+
+            };
+
+        }
+
+    </script>
+
+</body>
+
+</html>
